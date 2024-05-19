@@ -4,11 +4,13 @@ FROM python:3.9-slim
 # Set the working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+COPY requirements.txt /app
 
 # Install the dependencies
-RUN pip install flask
+RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY . /app
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5001
