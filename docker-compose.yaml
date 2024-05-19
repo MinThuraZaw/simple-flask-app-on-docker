@@ -3,5 +3,8 @@ version: '3.8'
 services:
   web:
     build: .
+    container_name: simple-flask-app
+    tty: true
+    restart: unless-stopped
     ports:
       - "5001:5001"
