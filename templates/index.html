@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <script>
+        async function fetchTodos() {
+            const response = await fetch('/api/todos');
+            const todos = await response.json();
+            const todoList = document.getElementById('todo-list');
+            todoList.innerHTML = '';
+            todos.forEach(todo => {
+                const listItem = document.createElement('li');
+                listItem.textContent = todo.task;
+                if (todo.done) {
+                    listItem.style.textDecoration = 'line-through';
+                }
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteTodo(todo.id);
+                const updateButton = document.createElement('button');
+                updateButton.textContent = 'Toggle Done';
+                updateButton.onclick = () => updateTodo(todo.id);
+                listItem.appendChild(deleteButton);
+                listItem.appendChild(updateButton);
+                todoList.appendChild(listItem);
+            });
+        }
+
+        async function addTodo() {
+            const task = document.getElementById('new-todo').value;
+            await fetch('/api/todos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ todo: task }),
+            });
+            document.getElementById('new-todo').value = '';
+            fetchTodos();
+        }
+
+        async function deleteTodo(id) {
+            await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+            fetchTodos();
+        }
+
+        async function updateTodo(id) {
+            await fetch(`/api/todos/${id}`, { method: 'PUT' });
+            fetchTodos();
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchTodos);
+    </script>
+</head>
+<body>
+    <h1>To-Do List</h1>
+    <input type="text" id="new-todo" placeholder="New task">
+    <button onclick="addTodo()">Add</button>
+    <ul id="todo-list"></ul>
+</body>
+</html>
