@@ -1,6 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
+from api.routes import api
 
 app = Flask(__name__)
+
+
+# Register the Blueprint
+app.register_blueprint(api)
 
 
 @app.route('/')
