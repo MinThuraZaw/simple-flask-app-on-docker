@@ -62,21 +62,7 @@
             background-color: #0056b3;
         }
     </style>
-    <script>
-        function handleLogin() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
 
-            // Simple validation (you can replace this with actual authentication logic)
-            if (username === 'user' && password === 'pass') {
-                window.location.href = 'main.html';
-                // alert('Login successful!');
-                // Redirect to another page or show the next section
-            } else {
-                alert('Invalid credentials, please try again.');
-            }
-        }
-    </script>
 </head>
 <body>
     <div class="login-container">
@@ -85,7 +71,9 @@
         <input type="text" id="username" name="username" placeholder="Enter your username">
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Enter your password">
-        <button onclick="handleLogin()">Login</button>
+        <form action="/redirect_to_home" method="post">
+            <button type="submit">Login</button>
+        </form>
     </div>
 </body>
 </html>
